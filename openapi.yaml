@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: Simple Flask API
+  description: A simple API with GET and POST endpoints
+  version: 1.0.0
+paths:
+  /get-endpoint:
+    get:
+      summary: Get Endpoint
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: This is a GET endpoint
+  /post-endpoint:
+    post:
+      summary: Post Endpoint
+      requestBody:
+        description: Data to be received
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                key: value
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: This is a POST endpoint
+                  data_received:
+                    type: object
+                    example:
+                      key: value
