@@ -13,18 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . .
 
-# Create a user with a known UID/GID within range 10000-20000.
-# This is required by Choreo to run the container as a non-root user.
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
-    --uid 10014 \
-    "choreo"
-# Use the above created unprivileged user
-USER 10014
+# Create a new user with UID 10016
+RUN groupadd -g 10016 choreo && useradd -r -u 10016 -g choreo choreouser
+
+# Switch to the new user
+USER 10016
 
 # Specify the command to run the application using Gunicorn
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5001", "run:app"]
